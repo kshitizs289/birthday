@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Ashi! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: introFade 1.5s ease-in-out;
+        }
+
+        .intro-screen.hidden {
+            animation: introFadeOut 1.5s ease-in-out forwards;
+        }
+
+        @keyframes introFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes introFadeOut {
+            to { 
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .intro-content {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .intro-title {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            animation: bounceIn 1.5s ease-in-out;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.15); }
+            70% { transform: scale(0.95); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .intro-subtitle {
+            font-size: 1.8rem;
+            animation: slideUp 1.2s ease-in-out 0.7s backwards;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleAnim 2s infinite;
+            box-shadow: 0 0 10px white;
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .main-content {
+            opacity: 0;
+            padding: 30px 15px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .main-content.show {
+            animation: fadeInContent 1.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeInContent {
+            to { opacity: 1; }
+        }
+
+        .heart {
+            position: fixed;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 35px;
+            animation: floatHeart 12s infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: slideDown 1.2s ease-in-out;
+            padding: 0 10px;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header h1 {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+            animation: pulse 2.5s infinite;
+            line-height: 1.2;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .header p {
+            font-size: 1.8rem;
+            opacity: 0.95;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .countdown-container {
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(245, 87, 108, 0.5);
+            animation: glow 2.5s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { 
+                box-shadow: 0 20px 50px rgba(245, 87, 108, 0.5);
+                transform: translateY(0);
+            }
+            50% { 
+                box-shadow: 0 25px 70px rgba(245, 87, 108, 0.8);
+                transform: translateY(-5px);
+            }
+        }
+
+        .countdown-title {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+
+        .countdown-timer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .time-unit {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            animation: timeUnitPulse 2s infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .time-unit:nth-child(1) { animation-delay: 0s; }
+        .time-unit:nth-child(2) { animation-delay: 0.2s; }
+        .time-unit:nth-child(3) { animation-delay: 0.4s; }
+        .time-unit:nth-child(4) { animation-delay: 0.6s; }
+
+        @keyframes timeUnitPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .time-value {
+            font-size: 4.5rem;
+            font-weight: bold;
+            color: white;
+            display: block;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.95);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 8px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .birthday-message-countdown {
+            color: white;
+            font-size: 2rem;
+            margin-top: 30px;
+            animation: fadeInOut 2.5s infinite;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            font-weight: 500;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: cardSlideUp 1s ease-in-out forwards;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.3s; }
+        .card:nth-child(2) { animation-delay: 0.5s; }
+        .card:nth-child(3) { animation-delay: 0.7s; }
+
+        @keyframes cardSlideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-20px) scale(1.03);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+        }
+
+        .card-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: rotateIcon 4s infinite;
+            display: inline-block;
+        }
+
+        @keyframes rotateIcon {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-15deg) scale(1.1); }
+            75% { transform: rotate(15deg) scale(1.1); }
+        }
+
+        .card h2 {
+            color: #764ba2;
+            margin-bottom: 18px;
+            font-size: 2.3rem;
+            font-weight: bold;
+        }
+
+        .card p {
+            color: #555;
+            line-height: 1.9;
+            font-size: 1.2rem;
+        }
+
+        .memory-lane {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 25px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            animation: fadeInUp 1.2s ease-in-out;
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(60px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .memory-lane h2 {
+            color: #764ba2;
+            font-size: 3rem;
+            margin-bottom: 35px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 25px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #f093fb, #f5576c);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 35px;
+            padding: 28px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            animation: timelineSlide 1s ease-in-out backwards;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-item:hover {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: translateX(15px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        }
+
+        .timeline-item:hover h3,
+        .timeline-item:hover p {
+            color: white;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.8s; }
+
+        @keyframes timelineSlide {
+            from { transform: translateX(-70px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -48px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            background: #f5576c;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px #f5576c;
+            transition: all 0.4s ease;
+        }
+
+        .timeline-item:hover::before {
+            transform: translateY(-50%) scale(1.4);
+            box-shadow: 0 0 0 6px #f5576c, 0 0 20px rgba(245, 87, 108, 0.6);
+        }
+
+        .timeline-item h3 {
+            color: #764ba2;
+            margin-bottom: 12px;
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        .timeline-item p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.15rem;
+        }
+
+        .birthday-message {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 25px;
+            padding: 60px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
+            margin-bottom: 40px;
+            animation: messageGlow 2.5s infinite;
+        }
+
+        @keyframes messageGlow {
+            0%, 100% { 
+                box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 20px 60px rgba(245, 87, 108, 0.8);
+                transform: scale(1.02);
+            }
+        }
+
+        .birthday-message h2 {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            animation: textBounce 1.5s ease-in-out infinite;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        @keyframes textBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .birthday-message p {
+            font-size: 1.4rem;
+            line-height: 2;
+            margin-bottom: 18px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .cake-container {
+            text-align: center;
+            margin: 50px 0;
+            padding: 20px;
+        }
+
+        .cake {
+            font-size: 12rem;
+            display: inline-block;
+            animation: cakeBounce 2.5s ease-in-out infinite;
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4));
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .cake:hover {
+            transform: scale(1.3) rotate(15deg);
+        }
+
+        .cake:active {
+            transform: scale(1.5) rotate(360deg);
+        }
+
+        @keyframes cakeBounce {
+            0%, 100% { transform: translateY(0) rotate(-8deg); }
+            50% { transform: translateY(-25px) rotate(8deg); }
+        }
+
+        .cake-text {
+            color: white;
+            font-size: 1.8rem;
+            margin-top: 25px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            animation: fadeInOut 2s infinite;
+        }
+
+        .balloons {
+            position: fixed;
+            bottom: -100px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .balloon {
+            font-size: 5rem;
+            animation: balloonFloat 7s ease-in-out infinite;
+        }
+
+        .balloon:nth-child(1) { animation-delay: 0s; }
+        .balloon:nth-child(2) { animation-delay: 0.6s; }
+        .balloon:nth-child(3) { animation-delay: 1.2s; }
+        .balloon:nth-child(4) { animation-delay: 1.8s; }
+        .balloon:nth-child(5) { animation-delay: 2.4s; }
+
+        @keyframes balloonFloat {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-40px) rotate(12deg); }
+            100% { transform: translateY(0) rotate(-12deg); }
+        }
+
+        .music-notes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .music-note {
+            position: absolute;
+            font-size: 2.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            animation: noteFloat 10s linear infinite;
+        }
+
+        @keyframes noteFloat {
+            0% { transform: translateY(110vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-110vh) translateX(120px) rotate(360deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: #f5576c;
+            animation: confettiFall 6s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-110vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 40px;
+            font-size: 1.3rem;
+        }
+
+        .footer p {
+            margin: 12px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .intro-title { font-size: 2.5rem; }
+            .intro-subtitle { font-size: 1.2rem; }
+            .header h1 { font-size: 2.8rem; }
+            .header p { font-size: 1.2rem; }
+            .countdown-container { padding: 30px 20px; }
+            .countdown-title { font-size: 1.8rem; }
+            .countdown-timer { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .time-unit { padding: 20px 15px; }
+            .time-value { font-size: 2.8rem; }
+            .time-label { font-size: 0.9rem; }
+            .birthday-message-countdown { font-size: 1.3rem; }
+            .card { padding: 25px; }
+            .card-icon { font-size: 3.5rem; }
+            .card h2 { font-size: 1.6rem; }
+            .card p { font-size: 1rem; }
+            .memory-lane { padding: 30px 20px; }
+            .memory-lane h2 { font-size: 2rem; }
+            .timeline { padding-left: 40px; }
+            .timeline::before { left: 15px; }
+            .timeline-item { padding: 20px; }
+            .timeline-item::before { left: -30px; width: 14px; height: 14px; }
+            .timeline-item h3 { font-size: 1.2rem; }
+            .timeline-item p { font-size: 1rem; }
+            .birthday-message { padding: 30px 20px; }
+            .birthday-message h2 { font-size: 2rem; }
+            .birthday-message p { font-size: 1.1rem; }
+            .cake { font-size: 7rem; }
+            .cake-text { font-size: 1.2rem; }
+            .balloon { font-size: 3.5rem; }
+            .footer { font-size: 1rem; padding: 25px; }
+        }
+
+        @media (max-width: 480px) {
+            .intro-title { font-size: 2rem; }
+            .intro-subtitle { font-size: 1rem; }
+            .header h1 { font-size: 2.2rem; }
+            .countdown-title { font-size: 1.5rem; }
+            .time-value { font-size: 2.2rem; }
+            .time-label { font-size: 0.75rem; }
+            .card-icon { font-size: 3rem; }
+            .card h2 { font-size: 1.4rem; }
+            .timeline { padding-left: 35px; }
+            .timeline::before { left: 12px; }
+            .timeline-item::before { left: -28px; width: 12px; height: 12px; }
+            .cake { font-size: 5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-screen" id="introScreen">
+        <div class="intro-content">
+            <div class="intro-title">✨ For Someone Special ✨</div>
+            <div class="intro-subtitle">A birthday gift crafted with love...</div>
+        </div>
+    </div>
+
+    <div class="balloons">
+        <div class="balloon">🎈</div>
+        <div class="balloon">🎈</div>
+        <div class="balloon">🎈</div>
+        <div class="balloon">🎈</div>
+        <div class="balloon">🎈</div>
+    </div>
+
+    <div class="music-notes" id="musicNotes"></div>
+
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <h1>🎉 Happy Birthday Ashi! 🎉</h1>
+            <p>February 12th - Your Special Day!</p>
+        </div>
+
+        <div class="countdown-container">
+            <h2 class="countdown-title">⏰ Countdown to Your Special Day ⏰</h2>
+            <div class="countdown-timer">
+                <div class="time-unit">
+                    <span class="time-value" id="days">00</span>
+                    <span class="time-label">Days</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="hours">00</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-value" id="minutes">00</span>
+                    <span class="time-label">Minutes</span>
+                </div>
+                <div class="time-unit" id="secondsUnit">
+                    <span class="time-value" id="seconds">00</span>
+                    <span class="time-label">Seconds</span>
+                </div>
+            </div>
+            <p class="birthday-message-countdown" id="countdownMessage">Until the most amazing day! 🎂</p>
+        </div>
+
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-icon">🎤</div>
+                <h2>The Melody Queen</h2>
+                <p>Your voice has the magical power to touch hearts and bring genuine smiles to everyone around you. Every single note you sing carries deep passion, raw emotion, and extraordinary talent. Keep spreading boundless joy through your beautiful gift of music, Ashi. The world truly needs more voices like yours that can inspire and uplift souls!</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🏆</div>
+                <h2>The Brilliant Star</h2>
+                <p>Being a topper in Class 12th Science is absolutely incredible and shows your exceptional dedication! Your unwavering hard work, brilliant mind, and relentless determination inspire everyone fortunate enough to know you. You prove every single day that with focus and perseverance, anything is possible. Your future is as bright and limitless as the stars you reach for!</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💝</div>
+                <h2>Best Friend Forever</h2>
+                <p>Through every high and low, through distance and silence, through changes and challenges, our friendship has stood incredibly strong and unshakeable. You're not just my best friend, you're family, my confidant, my constant. Your presence makes life infinitely better, and I'm eternally grateful for every precious moment we share together. Here's to a lifetime of beautiful friendship!</p>
+            </div>
+        </div>
+
+        <div class="memory-lane">
+            <h2>📸 Our Beautiful Journey Together</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>🌟 Class 10th - The Instagram Chronicles</h3>
+                    <p>Remember those secret late-night chats on Instagram that felt like our own little world? Sharing endless memes, talking about our wildest dreams, our deepest thoughts, and everything in between. Those were the magical days when our friendship was just beginning to bloom and grow. Every single notification from you made my entire day so much brighter, and every conversation felt like pure magic. Those stolen moments of chatting were genuinely the highlight of my days and something I'll cherish forever!</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>💔 The Silent Chapter</h3>
+                    <p>When we had to stop talking, it honestly felt like something incredibly important was missing in my life. The silence was really tough to deal with, but it never weakened what we had built together. You were always in my thoughts, in my prayers, and forever in my heart. True friendship doesn't fade with time or distance - it only grows stronger and deeper. I always knew deep down that we'd find our way back to each other because our bond is unbreakable!</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>✨ Today - Unbreakable Bond</h3>
+                    <p>Here we are now, together in Class 12th Science, and our bond is stronger than it has ever been before. We've both grown so much, we've changed, we've matured, but our precious friendship remains the one beautiful constant in our lives. Thank you for being the incredible, talented, brilliant, kind person you are. Thank you for never giving up on our friendship. This is just the beginning of our amazing journey together!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="birthday-message">
+            <h2>💌 A Letter from the Heart</h2>
+            <p>Dear Ashi,</p>
+            <p>On this incredibly special day, I want you to know just how truly remarkable and extraordinary you are. Your singing voice that can move souls and bring tears of joy, your brilliant mind that conquers every single challenge with grace, your kind and beautiful heart that touches everyone you meet - absolutely everything about you is remarkable and inspiring.</p>
+            <p>As you celebrate another wonderful year of your amazing life, I wish you nothing but the absolute best that life has to offer. May you ace your 12th boards with flying colors and break every record, may your singing reach incredible heights you've only dreamed of, and may every single one of your beautiful dreams come true. You deserve all the happiness, success, and love in the world and so much more.</p>
+            <p>Thank you for being such an incredible friend, for inspiring me every single day with your dedication and passion, for being the person I can always count on no matter what. Thank you for all the laughter that makes my sides hurt, the precious memories we've created, the unwavering support, and the friendship that means absolutely everything to me.</p>
+            <p><strong>Happy Birthday, Ashi! May this year bring you endless joy, incredible success, and countless beautiful moments that you'll treasure forever! 🎂✨🎉</strong></p>
+            <p style="margin-top: 25px; font-size: 1.5rem;">With all my love, best wishes, and endless gratitude,<br>Your Best Friend Forever ❤️</p>
+        </div>
+
+        <div class="cake-container">
+            <div class="cake" id="cakeEmoji">🎂</div>
+            <p class="cake-text">Click the cake and make a wish! 🌟✨</p>
+        </div>
+
+        <div class="footer">
+            <p>🎵 Keep singing, keep shining, keep being the amazing person you are! 🎵</p>
+            <p>From your best friend who believes in you more than you'll ever know ❤️</p>
+            <p>February 12, 2026 🎉</p>
+        </div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            var birthday = new Date('2026-02-12T00:00:00').getTime();
+            var now = new Date().getTime();
+            var distance = birthday - now;
+
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = (days < 10 ? '0' : '') + days;
+            document.getElementById('hours').textContent = (hours < 10 ? '0' : '') + hours;
+            document.getElementById('minutes').textContent = (minutes < 10 ? '0' : '') + minutes;
+            document.getElementById('seconds').textContent = (seconds < 10 ? '0' : '') + seconds;
+
+            if (distance < 0) {
+                document.getElementById('countdownMessage').textContent = "🎉 IT'S YOUR BIRTHDAY! 🎉";
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        setTimeout(function() {
+            document.getElementById('introScreen').classList.add('hidden');
+            setTimeout(function() {
+                document.getElementById('mainContent').classList.add('show');
+            }, 1500);
+        }, 4000);
+
+        function createSparkles() {
+            var intro = document.getElementById('introScreen');
+            for (var i = 0; i < 30; i++) {
+                var sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                intro.appendChild(sparkle);
+            }
+        }
+        createSparkles();
+
+        function createHearts() {
+            for (var i = 0; i < 20; i++) {
+                var heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 12 + 's';
+                document.body.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        function createMusicNotes() {
+            var container = document.getElementById('musicNotes');
+            var notes = ['🎵', '🎶', '🎼', '🎤'];
+            for (var i = 0; i < 15; i++) {
+                var note = document.createElement('div');
+                note.className = 'music-note';
+                note.innerHTML = notes[Math.floor(Math.random() * notes.length)];
+                note.style.left = Math.random() * 100 + '%';
+                note.style.animationDelay = Math.random() * 10 + 's';
+                container.appendChild(note);
+            }
+        }
+        createMusicNotes();
+
+        function createConfetti() {
+            var colors = ['#f093fb', '#f5576c', '#4facfe', '#ffd700', '#00f2fe', '#a8edea', '#fed6e3'];
+            for (var i = 0; i < 60; i++) {
+                var confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 6 + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                document.body.appendChild(confetti);
+            }
+        }
+        createConfetti();
+
+        var cards = document.querySelectorAll('.card');
+        for (var i = 0; i < cards.length; i++) {
+            cards[i].addEventListener('mouseenter', function() {
+                this.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+                this.style.color = 'white';
+                this.querySelector('h2').style.color = 'white';
+                this.querySelector('p').style.color = 'white';
+            });
+            cards[i].addEventListener('mouseleave', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.98)';
+                this.style.color = '#555';
+                this.querySelector('h2').style.color = '#764ba2';
+                this.querySelector('p').style.color = '#555';
+            });
+        }
+
+        var cake = document.getElementById('cakeEmoji');
+        cake.addEventListener('click', function() {
+            this.style.transform = 'scale(1.5) rotate(360deg)';
+            var self = this;
+            setTimeout(function() {
+                self.style.transform = '';
+            }, 600);
+        });
+    </script>
+</body>
+</html>
